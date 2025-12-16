@@ -1,7 +1,8 @@
-require('dotenv').config();
-const express = require('express');
+import 'dotenv/config';
+import express from 'express';
+import authRoutes from './routes/authRoutes.js';
+
 const app = express();
-const authRoutes = require('./routes/authRoutes');
 
 app.use(express.json());
 

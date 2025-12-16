@@ -1,7 +1,6 @@
-const { check, validationResult } = require('express-validator');
-const { resetPassword } = require('../Controllers/auth');
+import { check, validationResult } from 'express-validator';
 
-const validations = {
+export const validations = {
     login: [
         check('email')
         .isEmail()
@@ -41,15 +40,10 @@ const validations = {
 }
 
 // Middleware to handle validation errors
-const errorValidatorHandler = (req, res, next) => {
+export const errorValidatorHandler = (req, res, next) => {
     const errors = validationResult(req); // Corrected to use validationResult
     if (!errors.isEmpty()) {
        return res.status(400).json({ errors: errors.array()[0].msg });
     }
     next(); // Proceed to the next middleware or route handler if no errors
-};
-
-module.exports = {
-    validations,
-    errorValidatorHandler,
 };
