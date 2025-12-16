@@ -1,18 +1,26 @@
+
 const bcrypt = require('bcrypt');
-
-exports.login = (req, res) => {
-    const { email, password } = req.body;
-
-    res.send('Login successful');
-}
+const { prisma } = require('../lib/prisma');
 
 exports.signUp = async (req, res) => {
     const { fullName, email, password } = req.body;
     // encrypt password
     const hashedPassword = await bcrypt.hash(password, 10);
-    
-    console.log(hashedPassword);
+    const newUser = await prisma.user.create({
+        data: {
+            fullName,
+            email,
+            password: hashedPassword
+        }
+    });
+    console.log(newUser)
     res.send('Sign up successful');
+}
+
+exports.login = (req, res) => {
+    const { email, password } = req.body;
+
+    res.send('Login successful');
 }
 
 exports.resetPassword = (req, res) => {
